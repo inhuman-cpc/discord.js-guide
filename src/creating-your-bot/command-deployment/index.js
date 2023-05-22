@@ -31,11 +31,18 @@ client.once(Events.ClientReady, () => {
 })
 
 client.on(Events.InteractionCreate, async (interaction) => {
-  if (!interaction.isChatInputCommand()) return
+  if (!interaction.isChatInputCommand() && !interaction.isMessageContextMenuCommand()) {
+    console.log('NotSupportedCommand')
+    console.log(interaction)
+    return
+  }
 
   const command = client.commands.get(interaction.commandName)
 
-  if (!command) return
+  if (!command) {
+    console.log('CommandNameError')
+    return
+  }
 
   try {
     await command.execute(interaction)
